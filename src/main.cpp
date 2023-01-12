@@ -1,93 +1,124 @@
 #include <iostream>
 #include <vector>
+#include <cstdlib>
+#include <windows.h> 
+
 using namespace std;
 
-int table[9][9];
+#define N 9
 
-int initializeTable(int &table, int n)
+void fillSudoku(int table[N][N])
 {
-    //create sudoku table - full and solved
-    for(int i=0;i<n;i++)
+    int temp;
+    for (int i = 0; i < N; i++)
     {
-        // select numbers to be put into table
+        for (int j = 0; j < N; j++)
+        {
+            temp = rand() % 9 + 1;
+            table[i][j] = temp;
+        }
     }
-    return 0;
 }
 
-void printTable()
+void printSudoku(int table[N][N])
 {
-    // print table to terminal
-    /*  EXAMPLE
-      === === ===  === === ===  === === ===
-    || 1 | 2 |   ||   |   | 6 || 7 | 8 | 9 ||
-      --- --- ---  --- --- ---  --- --- ---
-    || 1 |   | 3 || 4 | 5 | 6 ||   | 8 | 9 ||
-      --- --- ---  --- --- ---  --- --- ---
-    || 1 | 2 | 3 || 4 |   | 6 ||   |   | 9 ||
-      === === ===  === === ===  === === ===
-    || 1 |   |   || 4 | 5 | 6 || 7 |   | 9 ||
-      --- --- ---  --- --- ---  --- --- ---
-    || 1 |   |   || 4 | 5 | 6 ||   | 8 | 9 ||
-      --- --- ---  --- --- ---  --- --- ---
-    ||   | 2 | 3 || 4 |   | 6 || 7 | 8 | 9 ||
-      === === ===  === === ===  === === ===
-    || 1 | 2 | 3 || 4 | 5 |   ||   |   | 9 ||
-      --- --- ---  --- --- ---  --- --- ---
-    ||   | 2 | 3 || 4 |   |   || 7 |   | 9 ||
-      --- --- ---  --- --- ---  --- --- ---
-    || 1 | 2 |   ||   | 5 | 6 || 7 | 8 | 9 ||
-      === === ===  === === ===  === === ===
-    */
-   
-   cout <<"  === === ===  === === ===  === === ===  " << endl;
-   cout <<"|| "<<table[0][0]<<" | "<<table[0][1]<<" | "<<table[0][2]<<" || "<<table[0][3]<<" | "<<table[0][4]<<" | "<<table[0][5]<<" || "<<table[0][6]<<" | "<<table[0][7]<<" | "<<table[0][8]<<" || "<< endl;
-   cout <<"  --- --- ---  --- --- ---  --- --- ---  " << endl;
-   cout <<"|| "<<table[1][0]<<" | "<<table[1][1]<<" | "<<table[1][2]<<" || "<<table[1][3]<<" | "<<table[1][4]<<" | "<<table[1][5]<<" || "<<table[1][6]<<" | "<<table[1][7]<<" | "<<table[1][8]<<" || "<< endl;
-   cout <<"  --- --- ---  --- --- ---  --- --- ---  " << endl;
-   cout <<"|| "<<table[2][0]<<" | "<<table[2][1]<<" | "<<table[2][2]<<" || "<<table[2][3]<<" | "<<table[2][4]<<" | "<<table[2][5]<<" || "<<table[2][6]<<" | "<<table[2][7]<<" | "<<table[2][8]<<" || "<< endl;
-   cout <<"  --- --- ---  --- --- ---  --- --- ---  " << endl;
-   cout <<"|| "<<table[3][0]<<" | "<<table[3][1]<<" | "<<table[3][2]<<" || "<<table[3][3]<<" | "<<table[3][4]<<" | "<<table[3][5]<<" || "<<table[3][6]<<" | "<<table[3][7]<<" | "<<table[3][8]<<" || "<< endl;
-   cout <<"  --- --- ---  --- --- ---  --- --- ---  " << endl;
-   cout <<"|| "<<table[4][0]<<" | "<<table[4][1]<<" | "<<table[4][2]<<" || "<<table[4][3]<<" | "<<table[4][4]<<" | "<<table[4][5]<<" || "<<table[4][6]<<" | "<<table[4][7]<<" | "<<table[4][8]<<" || "<< endl;
-   cout <<"  --- --- ---  --- --- ---  --- --- ---  " << endl;
-   cout <<"|| "<<table[5][0]<<" | "<<table[5][1]<<" | "<<table[5][2]<<" || "<<table[5][3]<<" | "<<table[5][4]<<" | "<<table[5][5]<<" || "<<table[5][6]<<" | "<<table[5][7]<<" | "<<table[5][8]<<" || "<< endl;
-   cout <<"  --- --- ---  --- --- ---  --- --- ---  " << endl;
-   cout <<"|| "<<table[6][0]<<" | "<<table[6][1]<<" | "<<table[6][2]<<" || "<<table[6][3]<<" | "<<table[6][4]<<" | "<<table[6][5]<<" || "<<table[6][6]<<" | "<<table[6][7]<<" | "<<table[6][8]<<" || "<< endl;
-   cout <<"  --- --- ---  --- --- ---  --- --- ---  " << endl;
-   cout <<"|| "<<table[7][0]<<" | "<<table[7][1]<<" | "<<table[7][2]<<" || "<<table[7][3]<<" | "<<table[7][4]<<" | "<<table[7][5]<<" || "<<table[7][6]<<" | "<<table[7][7]<<" | "<<table[7][8]<<" || "<< endl;
-   cout <<"  --- --- ---  --- --- ---  --- --- ---  " << endl;
-   cout <<"|| "<<table[8][0]<<" | "<<table[8][1]<<" | "<<table[8][2]<<" || "<<table[8][3]<<" | "<<table[8][4]<<" | "<<table[8][5]<<" || "<<table[8][6]<<" | "<<table[8][7]<<" | "<<table[8][8]<<" || "<< endl;
-   cout <<"  === === ===  === === ===  === === ===  " << endl;
-   
+    printf("  === === ===  === === ===  === === === \n");
+    for (int i = 0; i < N; i++)
+    {
+        printf("||");
+        for (int j = 0; j < N; j++)
+        {
+            printf(" %d ", table[i][j]);
+            if (j % 3 == 2)
+            {
+                printf("||");
+            }
+            else
+            {
+                printf("|");
+            }
+        }
+        printf("\n");
+
+        if (i % 3 == 2)
+        {
+            printf("  === === ===  === === ===  === === === \n");
+        }
+        else
+        {
+            printf("  --- --- ---  --- --- ---  --- --- --- \n");
+        }
+    }
 }
 
-int saveGame(int &table)
+bool isValid(int table[N][N])
 {
-    // save game to f.e. txt file
-    return 0;
-}
+    // Check rows
+    for (int i = 0; i < 9; i++) {
+        bool is_used[9] = {false};
+        for (int j = 0; j < 9; j++) {
+            if (table[i][j] != 0) {
+                if (is_used[table[i][j] - 1]) {
+                    return false;
+                }
+                is_used[table[i][j] - 1] = true;
+            }
+        }
+    }
 
-int recoverSave(int &table)
-{
-    // recover game state from save file
-    return 0;
-}
+    // Check columns
+    for (int j = 0; j < 9; j++) {
+        bool is_used[9] = {false};
+        for (int i = 0; i < 9; i++) {
+            if (table[i][j] != 0) {
+                if (is_used[table[i][j] - 1]) {
+                    return false;
+                }
+                is_used[table[i][j] - 1] = true;
+            }
+        }
+    }
 
-int inputNumber(int &table, int a, int b, int c)
-{
-    // input number into table. a - biq square, b - place in square, c - number to be put (from range: 1-9)
-    return 0;
-}
+    // Check 3x3 sub-tables
+    for (int k = 0; k < 9; k++) {
+        bool is_used[9] = {false};
+        for (int i = k / 3 * 3; i < k / 3 * 3 + 3; i++) {
+            for (int j = (k % 3) * 3; j < (k % 3) * 3 + 3; j++) {
+                if (table[i][j] != 0) {
+                    if (is_used[table[i][j] - 1]) {
+                        return false;
+                    }
+                    is_used[table[i][j] - 1] = true;
+                }
+            }
+        }
+    }
 
-int Menu(int a)
-{
-    // menu where user can start new game or load game or exit
-    return 0;
+    return true;
 }
 
 int main()
 {
-    printf("Hello World!\n");
-    printTable();
-    return 0;
+    int sudoku[N][N]{
+    {5, 3, 4, 6, 7, 8, 9, 1, 2},
+    {6, 7, 2, 1, 9, 5, 3, 4, 8},
+    {1, 9, 8, 3, 4, 2, 5, 6, 7},
+    {8, 5, 9, 7, 6, 1, 4, 2, 3},
+    {4, 2, 6, 8, 5, 3, 7, 9, 1},
+    {7, 1, 3, 9, 2, 4, 8, 5, 6},
+    {9, 6, 1, 5, 3, 7, 2, 8, 4},
+    {2, 8, 7, 4, 1, 9, 6, 3, 5},
+    {3, 4, 5, 2, 8, 6, 1, 7, 9}
+    };
+    bool flag = 0;
+    while(flag == 0)
+    {
+        srand(time(NULL));
+        // fillSudoku(sudoku);
+        printSudoku(sudoku);
+        flag = isValid(sudoku);
+        cout << flag;
+        Sleep(1000);
+    }
+    
 }
