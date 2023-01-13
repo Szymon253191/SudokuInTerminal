@@ -215,76 +215,17 @@ public:
 		int x, y, value;
 		cout << "row, column, value" << endl;
 		cin >> x >> y >> value;
-		if (mat[x - 1][y - 1] != 0 && checkValid()!=true)
+		bool flag = CheckIfSafe(x-1,y-1,value);
+		cout << "ifSafe: " << flag << endl;
+		if (mat[x - 1][y - 1] != 0 || !CheckIfSafe(x-1,y-1,value))
 		{
 			cout << "Can't put value in there!" << endl;
 		}
-		else if (mat[x - 1][y - 1] == 0 && checkValid()==true) 
+		else
 		{
 			cout << value << " has been put." << endl;
 			mat[x - 1][y - 1] = value;
 		}
-	}
-	// function to check if sudoku rules are preserved
-	bool checkValid()
-	{
-		// Check rows
-		for (int i = 0; i < 9; i++)
-		{
-			bool is_used[9] = {false};
-			for (int j = 0; j < 9; j++)
-			{
-				if (mat[i][j] != 0)
-				{
-					if (is_used[mat[i][j] - 1])
-					{
-						return false;
-						cout << "error row" << endl;
-					}
-					is_used[mat[i][j] - 1] = true;
-				}
-			}
-		}
-
-		// Check columns
-		for (int j = 0; j < 9; j++)
-		{
-			bool is_used[9] = {false};
-			for (int i = 0; i < 9; i++)
-			{
-				if (mat[i][j] != 0)
-				{
-					if (is_used[mat[i][j] - 1])
-					{
-						return false;
-						cout << "error col" << endl;
-					}
-					is_used[mat[i][j] - 1] = true;
-				}
-			}
-		}
-
-		// Check 3x3 sub-tables
-		for (int k = 0; k < 9; k++)
-		{
-			bool is_used[9] = {false};
-			for (int i = k / 3 * 3; i < k / 3 * 3 + 3; i++)
-			{
-				for (int j = (k % 3) * 3; j < (k % 3) * 3 + 3; j++)
-				{
-					if (mat[i][j] != 0)
-					{
-						if (is_used[mat[i][j] - 1])
-						{
-							return false;
-							cout << "error 3x3" << endl;
-						}
-						is_used[mat[i][j] - 1] = true;
-					}
-				}
-			}
-		}
-		return true;
 	}
 	// Print sudoku
 	void printSudoku()
@@ -329,7 +270,7 @@ public:
 int main()
 {
 	int N = 9;
-	int K = 20;
+	int K = 3;
 	srand(time(NULL));
 	Sudoku *sudoku = new Sudoku(N, K);
 	sudoku->fillValues();
@@ -337,18 +278,26 @@ int main()
 	while (true)
 	{
 		sudoku->insertValue();
-		bool flag = sudoku->checkValid();
-		cout << flag << endl;
 		sudoku->printSudoku();
 	}
 	return 0;
 }
 
-//  TO DO
-// checkValid() not working correctly
-// 	it allows insert wrong value into sudoku and dont sent message "error"
-
-
+/* 	---------	TO DO	--------------
+	- 	add functions:
+		- saveToFile() 		-> saves progress of game into f.e. CSV file
+		- recoverSave()		-> recovers progress from file and puts numbers into sudoku
+		- checkIfEnd() 		-> put into while loop in main. if true -> cout "u won" and breaks loop
+		- menu() 			-> displays menu of options like: restart game, save to file, exit
+	-	menu should be displayed on startup and be accessable during game. 
+		(f.e. if typed "menu" during game. simple 'if' checks if input is "menu" 
+		else game contiues)
+	-	add 'if' into insertValue() to make sure player inputs number from 1-9.
+	---------	DONE	--------------
+	-	checkValid() not working correctly
+		it allows insert wrong value into sudoku and dont sent message "error"
+		DONE!!! fix: x-1, y-1 in checking function. Computer counts from 0, human from 1.
+*/
 
 // This code is contributed by Aarti_Rathi
 // and developed further by Szymon Rozmyslowski
