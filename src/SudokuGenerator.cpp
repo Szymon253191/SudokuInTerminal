@@ -213,11 +213,15 @@ public:
 	void insertValue()
 	{
 		int x, y, value;
-		cout << "row, column, value" << endl;
-		cin >> x >> y >> value;
-		bool flag = CheckIfSafe(x-1,y-1,value);
-		cout << "ifSafe: " << flag << endl;
-		if (mat[x - 1][y - 1] != 0 || !CheckIfSafe(x-1,y-1,value))
+		cout << "row, column, value. 0 = menu" << endl;
+		cin >> x;
+		if (x == 0)
+		{
+			system("CLS");
+			menu();
+		}
+		cin >> y >> value;
+		if (mat[x - 1][y - 1] != 0 || !CheckIfSafe(x - 1, y - 1, value))
 		{
 			cout << "Can't put value in there!" << endl;
 		}
@@ -264,22 +268,74 @@ public:
 			}
 		};
 	}
+	// menu display and selection handle
+	void menu()
+	{
+		int option;
+		cout << " ## MENU ## \n 1.Start \n 2.Continue \n 3.Exit \n";
+		cin >> option;
+		switch (option)
+		{
+		case 1:
+			system("CLS");
+			game();
+			break;
+		case 2:
+			system("CLS");
+			/* code */
+			break;
+		case 3:
+			system("CLS");
+			exit(0);
+			break;
+		default:
+			system("CLS");
+			cout << "Wrong selection. Try again\n";
+			menu();
+			break;
+		}
+	}
+	// game loop
+	void game()
+	{
+		while (!isSolved())
+		{
+			// system("CLS");
+			printSudoku();
+			insertValue();
+		}
+		cout << "Congrats! You won!\n";
+		system("pause");
+		system("CLS");
+		menu();
+	}
+	// check if sudoku is solved
+	bool isSolved()
+	{
+		for (int i = 0; i < N; i++)
+		{
+			for (int j = 0; j < N; j++)
+			{
+				if (mat[i][j] == 0)
+				{
+					return false;
+				}
+			}
+		}
+		return true;
+	}
 };
 
 // Driver code
 int main()
 {
 	int N = 9;
-	int K = 3;
+	int K = 2;
 	srand(time(NULL));
 	Sudoku *sudoku = new Sudoku(N, K);
+	system("CLS");
 	sudoku->fillValues();
-	sudoku->printSudoku();
-	while (true)
-	{
-		sudoku->insertValue();
-		sudoku->printSudoku();
-	}
+	sudoku->menu();
 	return 0;
 }
 
@@ -289,8 +345,8 @@ int main()
 		- recoverSave()		-> recovers progress from file and puts numbers into sudoku
 		- checkIfEnd() 		-> put into while loop in main. if true -> cout "u won" and breaks loop
 		- menu() 			-> displays menu of options like: restart game, save to file, exit
-	-	menu should be displayed on startup and be accessable during game. 
-		(f.e. if typed "menu" during game. simple 'if' checks if input is "menu" 
+	-	menu should be displayed on startup and be accessable during game.
+		(f.e. if typed "menu" during game. simple 'if' checks if input is "menu"
 		else game contiues)
 	-	add 'if' into insertValue() to make sure player inputs number from 1-9.
 	---------	DONE	--------------
