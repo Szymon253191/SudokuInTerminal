@@ -1,7 +1,10 @@
 /* C++ program for Sudoku generator */
-#include <bits/stdc++.h>
+#include <fstream> 
 #include <cstdlib>
 using namespace std;
+#include <iostream> 
+#include <string> 
+#include <vector>
 
 class Sudoku
 {
@@ -279,11 +282,14 @@ public:
 		{
 		case 1:
 			system("CLS");
+			fillValues();
 			game();
 			break;
 		case 2:
 			system("CLS");
 			/* code */
+			recoverSave();
+			game();
 			break;
 		case 3:
 			system("CLS");
@@ -302,6 +308,7 @@ public:
 		while (!isSolved())
 		{
 			// system("CLS");
+			saveToFile();
 			printSudoku();
 			insertValue();
 		}
@@ -325,6 +332,53 @@ public:
 		}
 		return true;
 	}
+	//savetofile
+	void saveToFile()
+	{
+	  //Opening the file
+    ofstream inputfile("save.txt", std::ofstream::trunc);
+    
+    if (!inputfile.is_open()) 
+    cout<<"Error opening file" ;
+
+    //Defining the loop for getting input from the file
+    
+    for (int r = 0; r < 9; r++) //Outer loop for rows
+    {
+        for (int c = 0; c < 9; c++) //inner loop for columns
+        {
+          inputfile << " " << mat[r][c];  //Take input from file and put into myArray
+        }
+    }
+	}
+	//recoverSave
+	void recoverSave()
+	{
+	//Opening the file
+    ifstream inputfile("save.txt");
+    
+    if (!inputfile.is_open()) 
+    cout<<"Error opening file" ;
+
+    //Defining the loop for getting input from the file
+    
+    for (int r = 0; r < 9; r++) //Outer loop for rows
+    {
+        for (int c = 0; c < 9; c++) //inner loop for columns
+        {
+          inputfile >> mat[r][c];  //Take input from file and put into myArray
+        }
+    }
+
+    for (int r = 0; r < 9; r++)
+    {
+        for (int c = 0; c < 9; c++)
+        {
+            cout << mat[r][c] << "\t";
+        }
+        cout<<endl;
+    }
+	}
 };
 
 // Driver code
@@ -335,15 +389,16 @@ int main()
 	srand(time(NULL));
 	Sudoku *sudoku = new Sudoku(N, K);
 	system("CLS");
-	sudoku->fillValues();
+	//sudoku->fillValues();
+	//sudoku->saveToFile();
 	sudoku->menu();
 	return 0;
 }
 
 /* 	---------	TO DO	--------------
 	- 	add functions:
-		- saveToFile() 		-> saves progress of game into f.e. CSV file
-		- recoverSave()		-> recovers progress from file and puts numbers into sudoku
+		- saveToFile() 		-> saves progress of game into f.e. CSV file 								WYKONANO
+		- recoverSave()		-> recovers progress from file and puts numbers into sudoku					WYKONANO
 		- checkIfEnd() 		-> put into while loop in main. if true -> cout "u won" and breaks loop
 		- menu() 			-> displays menu of options like: restart game, save to file, exit
 	-	menu should be displayed on startup and be accessable during game.
@@ -354,6 +409,8 @@ int main()
 	-	checkValid() not working correctly
 		it allows insert wrong value into sudoku and dont sent message "error"
 		DONE!!! fix: x-1, y-1 in checking function. Computer counts from 0, human from 1.
+	-------- FIX PLS ------
+	po kolejnym wygenerowaniu gry pojawia sie liczba 10
 */
 
 // This code is contributed by Aarti_Rathi
