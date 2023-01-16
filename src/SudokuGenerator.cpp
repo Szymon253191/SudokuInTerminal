@@ -45,7 +45,9 @@ public:
 
 	// Sudoku Generator
 	void fillValues()
-	{
+	{	
+		// Clearing table
+		clear();
 
 		// Fill the diagonal of SRN x SRN matrices
 		fillDiagonal();
@@ -354,30 +356,32 @@ public:
 	//recoverSave
 	void recoverSave()
 	{
-	//Opening the file
-    ifstream inputfile("save.txt");
-    
-    if (!inputfile.is_open()) 
-    cout<<"Error opening file" ;
+		//Opening the file
+		ifstream inputfile("save.txt");
+		
+		if (!inputfile.is_open()) 
+		cout<<"Error opening file" ;
 
-    //Defining the loop for getting input from the file
-    
-    for (int r = 0; r < 9; r++) //Outer loop for rows
-    {
-        for (int c = 0; c < 9; c++) //inner loop for columns
-        {
-          inputfile >> mat[r][c];  //Take input from file and put into myArray
-        }
-    }
-
-    for (int r = 0; r < 9; r++)
-    {
-        for (int c = 0; c < 9; c++)
-        {
-            cout << mat[r][c] << "\t";
-        }
-        cout<<endl;
-    }
+		//Defining the loop for getting input from the file
+		
+		for (int r = 0; r < 9; r++) //Outer loop for rows
+		{
+			for (int c = 0; c < 9; c++) //inner loop for columns
+			{
+			inputfile >> mat[r][c];  //Take input from file and put into myArray
+			}
+		}
+	}
+	//clearValues
+	void clear()
+	{
+		for (int r = 0; r < 9; r++) //Outer loop for rows
+    	{
+			for (int c = 0; c < 9; c++) //inner loop for columns
+			{
+			mat[r][c] = 0;  //Take input from file and put into myArray
+			}
+    	}
 	}
 };
 
@@ -410,7 +414,6 @@ int main()
 		it allows insert wrong value into sudoku and dont sent message "error"
 		DONE!!! fix: x-1, y-1 in checking function. Computer counts from 0, human from 1.
 	-------- FIX PLS ------
-	po kolejnym wygenerowaniu gry pojawia sie liczba 10
 */
 
 // This code is contributed by Aarti_Rathi
